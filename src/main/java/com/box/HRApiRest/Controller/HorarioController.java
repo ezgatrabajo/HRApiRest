@@ -25,7 +25,7 @@ class HorarioController {
 
     // Aggregate root
 
-    @GetMapping("/Horarios")
+    @GetMapping("/horarios")
     public CollectionModel<EntityModel<Horario>> all() {
 
         List<EntityModel<Horario>> Horarios = repository.findAll().stream()
@@ -39,14 +39,14 @@ class HorarioController {
 
 
 
-    @PostMapping("/Horarios")
+    @PostMapping("/horarios")
     Horario newHorario(@RequestBody Horario newHorario) {
         return repository.save(newHorario);
     }
 
     // Single item
 
-    @GetMapping("/Horarios/{id}")
+    @GetMapping("/horarios/{id}")
     public EntityModel<Horario> one(@PathVariable Long id) {
 
         Horario Horario = repository.findById(id) //
@@ -57,7 +57,7 @@ class HorarioController {
                 linkTo(methodOn(HorarioController.class).all()).withRel("Horarios"));
     }
 
-    @PutMapping("/Horarios/{id}")
+    @PutMapping("/horarios/{id}")
     Horario replaceHorario(@RequestBody Horario newHorario, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -75,7 +75,7 @@ class HorarioController {
                 });
     }
 
-    @DeleteMapping("/Horarios/{id}")
+    @DeleteMapping("/horarios/{id}")
     void deleteHorario(@PathVariable Long id) {
         repository.deleteById(id);
     }

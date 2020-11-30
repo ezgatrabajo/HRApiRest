@@ -1,8 +1,8 @@
 package com.box.HRApiRest.Controller;
 
-import com.box.HRApiRest.Exceptions.MarcaNotFoundException;
-import com.box.HRApiRest.Model.Marca;
-import com.box.HRApiRest.Repositories.MarcaRepository;
+import com.box.HRApiRest.Exceptions.ProductoNotFoundException;
+import com.box.HRApiRest.Model.Producto;
+import com.box.HRApiRest.Repositories.ProductoRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -14,66 +14,65 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-public
-class ProductoController {
+public class ProductoController {
 
-    private final MarcaRepository repository;
+    private final ProductoRepository repository;
 
-    ProductoController(MarcaRepository repository) {
+    ProductoController(ProductoRepository repository) {
         this.repository = repository;
     }
 
     // Aggregate root
 
-    @GetMapping("/Marcas")
-    public CollectionModel<EntityModel<Marca>> all() {
+    @GetMapping("/productos")
+    public CollectionModel<EntityModel<Producto>> all() {
 
-        List<EntityModel<Marca>> Marcas = repository.findAll().stream()
-                .map(Marca -> EntityModel.of(Marca,
-                        linkTo(methodOn(ProductoController.class).one(Marca.getId())).withSelfRel(),
-                        linkTo(methodOn(ProductoController.class).all()).withRel("Marcas")))
+        List<EntityModel<Producto>> Productos = repository.findAll().stream()
+                .map(Producto -> EntityModel.of(Producto,
+                        linkTo(methodOn(ProductoController.class).one(Producto.getId())).withSelfRel(),
+                        linkTo(methodOn(ProductoController.class).all()).withRel("Productos")))
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(Marcas, linkTo(methodOn(ProductoController.class).all()).withSelfRel());
+        return CollectionModel.of(Productos, linkTo(methodOn(ProductoController.class).all()).withSelfRel());
     }
 
 
 
-    @PostMapping("/Marcas")
-    Marca newMarca(@RequestBody Marca newMarca) {
-        return repository.save(newMarca);
+    @PostMapping("/productos")
+    Producto newProducto(@RequestBody Producto newProducto) {
+        return repository.save(newProducto);
     }
 
     // Single item
 
-    @GetMapping("/Marcas/{id}")
-    public EntityModel<Marca> one(@PathVariable Long id) {
+    @GetMapping("/productos/{id}")
+    public EntityModel<Producto> one(@PathVariable Long id) {
 
-        Marca Marca = repository.findById(id) //
-                .orElseThrow(() -> new MarcaNotFoundException(id));
+        Producto Producto = repository.findById(id) //
+                .orElseThrow(() -> new ProductoNotFoundException(id));
 
-        return EntityModel.of(Marca, //
+        return EntityModel.of(Producto, //
                 linkTo(methodOn(ProductoController.class).one(id)).withSelfRel(),
-                linkTo(methodOn(ProductoController.class).all()).withRel("Marcas"));
+                linkTo(methodOn(ProductoController.class).all()).withRel("Productos"));
     }
 
-    @PutMapping("/Marcas/{id}")
-    Marca replaceMarca(@RequestBody Marca newMarca, @PathVariable Long id) {
+    @PutMapping("/productos/{id}")
+    Producto replaceProducto(@RequestBody Producto newProducto, @PathVariable Long id) {
 
         return repository.findById(id)
-                .map(Marca -> {
-                    Marca.setNombre(newMarca.getNombre());
-                    Marca.setDescripcion(newMarca.getDescripcion());
-                    return repository.save(Marca);
+                .map(Producto -> {
+                    Producto.setNombre(newProducto.getNombre());
+                    Producto.setDescripcion(newProducto.getDescripcion());
+                    return repository.save(Producto);
                 })
                 .orElseGet(() -> {
-                    newMarca.setId(id);
-                    return repository.save(newMarca);
+                    newProducto.setId(id);
+                    return repository.save(newProducto);
                 });
     }
 
-    @DeleteMapping("/Marcas/{id}")
-    void deleteMarca(@PathVariable Long id) {
+    @DeleteMapping("/productos/{id}")
+    void deleteProducto(@PathVariable Long id) {
         repository.deleteById(id);
     }
 

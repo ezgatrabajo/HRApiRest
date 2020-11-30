@@ -25,7 +25,7 @@ class CategoriaController {
 
     // Aggregate root
 
-    @GetMapping("/Categorias")
+    @GetMapping("/categorias")
     public CollectionModel<EntityModel<Categoria>> all() {
 
         List<EntityModel<Categoria>> Categorias = repository.findAll().stream()
@@ -39,14 +39,14 @@ class CategoriaController {
 
 
 
-    @PostMapping("/Categorias")
+    @PostMapping("/categorias")
     Categoria newCategoria(@RequestBody Categoria newCategoria) {
         return repository.save(newCategoria);
     }
 
     // Single item
 
-    @GetMapping("/Categorias/{id}")
+    @GetMapping("/categorias/{id}")
     public EntityModel<Categoria> one(@PathVariable Long id) {
 
         Categoria Categoria = repository.findById(id) //
@@ -57,7 +57,7 @@ class CategoriaController {
                 linkTo(methodOn(CategoriaController.class).all()).withRel("Categorias"));
     }
 
-    @PutMapping("/Categorias/{id}")
+    @PutMapping("/categorias/{id}")
     Categoria replaceCategoria(@RequestBody Categoria newCategoria, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -72,7 +72,7 @@ class CategoriaController {
                 });
     }
 
-    @DeleteMapping("/Categorias/{id}")
+    @DeleteMapping("/categorias/{id}")
     void deleteCategoria(@PathVariable Long id) {
         repository.deleteById(id);
     }

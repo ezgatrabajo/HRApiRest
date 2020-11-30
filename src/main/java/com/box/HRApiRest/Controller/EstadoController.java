@@ -25,7 +25,7 @@ class EstadoController {
 
     // Aggregate root
 
-    @GetMapping("/Estados")
+    @GetMapping("/estados")
     public CollectionModel<EntityModel<Estado>> all() {
 
         List<EntityModel<Estado>> Estados = repository.findAll().stream()
@@ -39,14 +39,14 @@ class EstadoController {
 
 
 
-    @PostMapping("/Estados")
+    @PostMapping("/estados")
     Estado newEstado(@RequestBody Estado newEstado) {
         return repository.save(newEstado);
     }
 
     // Single item
 
-    @GetMapping("/Estados/{id}")
+    @GetMapping("/estados/{id}")
     public EntityModel<Estado> one(@PathVariable Long id) {
 
         Estado Estado = repository.findById(id) //
@@ -57,7 +57,7 @@ class EstadoController {
                 linkTo(methodOn(EstadoController.class).all()).withRel("Estados"));
     }
 
-    @PutMapping("/Estados/{id}")
+    @PutMapping("/estados/{id}")
     Estado replaceEstado(@RequestBody Estado newEstado, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -72,7 +72,7 @@ class EstadoController {
                 });
     }
 
-    @DeleteMapping("/Estados/{id}")
+    @DeleteMapping("/estados/{id}")
     void deleteEstado(@PathVariable Long id) {
         repository.deleteById(id);
     }

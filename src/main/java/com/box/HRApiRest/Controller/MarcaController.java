@@ -14,8 +14,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-public
-class MarcaController {
+@RequestMapping("api/marcas")
+public class MarcaController {
 
     private final MarcaRepository repository;
 
@@ -25,7 +25,7 @@ class MarcaController {
 
     // Aggregate root
 
-    @GetMapping("/Marcas")
+    @GetMapping("/")
     public CollectionModel<EntityModel<Marca>> all() {
 
         List<EntityModel<Marca>> Marcas = repository.findAll().stream()
@@ -39,14 +39,14 @@ class MarcaController {
 
 
 
-    @PostMapping("/Marcas")
+    @PostMapping("/")
     Marca newMarca(@RequestBody Marca newMarca) {
         return repository.save(newMarca);
     }
 
     // Single item
 
-    @GetMapping("/Marcas/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Marca> one(@PathVariable Long id) {
 
         Marca Marca = repository.findById(id) //
@@ -57,7 +57,7 @@ class MarcaController {
                 linkTo(methodOn(MarcaController.class).all()).withRel("Marcas"));
     }
 
-    @PutMapping("/Marcas/{id}")
+    @PutMapping("/{id}")
     Marca replaceMarca(@RequestBody Marca newMarca, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -72,7 +72,7 @@ class MarcaController {
                 });
     }
 
-    @DeleteMapping("/Marcas/{id}")
+    @DeleteMapping("/{id}")
     void deleteMarca(@PathVariable Long id) {
         repository.deleteById(id);
     }

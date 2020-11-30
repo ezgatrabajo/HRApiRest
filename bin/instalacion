@@ -1,0 +1,18 @@
+
+---------------------------------------------------------
+--  instalacion mysql
+---------------------------------------------------------
+https://www.digitalocean.com/community/tutorials/como-instalar-mysql-en-ubuntu-18-04-es
+
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo mysql --> para ingresar
+
+-- crear usuario
+CREATE USER 'elementarystudio'@'localhost' IDENTIFIED BY 'YXFzd2RlZnI=';
+GRANT ALL PRIVILEGES ON *.* TO 'elementarystudio'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+-- crear base de datos
+create database HRApiRest
